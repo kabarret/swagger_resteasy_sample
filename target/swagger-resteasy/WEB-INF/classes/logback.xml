@@ -1,0 +1,33 @@
+<configuration scan="true">
+
+    <property name="LOGS_PATH" value="/log/myApp/" />
+
+    <appender name="MYAPP" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <file>${LOGS_PATH}/myApp.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOGS_PATH}/MyApp-%d{yyyy-MM-dd}.log.gz
+            </fileNamePattern>
+            <maxHistory>90</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d [REFID:%X{REFID}] [%level] [%thread] [%logger{0}] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.apache.commons" additivity="false">
+        <level value="INFO" />
+    </logger>
+
+    <logger name="com" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="MYAPP" />
+    </logger>
+
+    <logger name="org.springframework" additivity="false">
+        <level value="INFO" />
+    </logger>
+
+</configuration>
